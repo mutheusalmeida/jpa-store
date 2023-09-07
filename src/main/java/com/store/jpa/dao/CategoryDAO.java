@@ -11,12 +11,12 @@ public class CategoryDAO {
 		this.entityManager = entityManager;
 	}
 	
-	public void add (Category category) {
-		entityManager.persist(category);
+	private Category manage(Category category) {
+		return this.entityManager.merge(category);
 	}
 	
-	private Category manage (Category category) {
-		return this.entityManager.merge(category);
+	public void add(Category category) {
+		this.entityManager.persist(category);
 	}
 
 	public void delete(Category category) {

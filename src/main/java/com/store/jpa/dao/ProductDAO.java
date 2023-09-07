@@ -1,5 +1,7 @@
 package com.store.jpa.dao;
 
+import java.util.List;
+
 import com.store.jpa.model.Product;
 
 import jakarta.persistence.EntityManager;
@@ -11,12 +13,12 @@ public class ProductDAO {
 		this.entityManager = entityManager;
 	}
 	
-	public void add (Product product) {
-		entityManager.persist(product);
+	private Product manage(Product product) {
+		return this.entityManager.merge(product);
 	}
 	
-	public Product manage (Product product) {
-		return this.entityManager.merge(product);
+	public void add(Product product) {
+		this.entityManager.persist(product);
 	}
 
 	public void delete(Product product) {
@@ -25,5 +27,15 @@ public class ProductDAO {
 
 	public void update(Product product) {
 		this.manage(product);
+	}
+	
+	public Product getProduct(Long id) {
+		return this.entityManager.find(Product.class, id);
+	}
+	
+	public List<Product> getProducts() {
+		String jpql = "SELECT p FROM Product p";
+		
+		return this.entityManager.createQuery(jpql, Product.class).getResultList();
 	}
 }
