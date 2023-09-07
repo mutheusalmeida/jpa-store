@@ -1,4 +1,4 @@
-package com.jpa.store.model;
+package com.store.jpa.model;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ public class Product {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	Long id;
 	String name;
-	String decription;
+	String description;
 	BigDecimal price;
 	
 	public Long getId() {
@@ -35,12 +35,12 @@ public class Product {
 		this.name = name;
 	}
 
-	public String getDecription() {
-		return decription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDecription(String decription) {
-		this.decription = decription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public BigDecimal getPrice() {
