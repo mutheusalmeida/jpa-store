@@ -1,11 +1,13 @@
 package com.store.jpa.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,40 +16,51 @@ public class Product {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	Long id;
-	String name;
-	String description;
-	BigDecimal price;
+	private Long id;
+	private String name;
+	private String description;
+	private BigDecimal price;
+	private LocalDate date = LocalDate.now();
 	
-	public Long getId() {
-		return id;
+	@ManyToOne
+	private Category category;
+	
+	public Product() {
+		
+	}
+	
+	public Product(String name, String description, BigDecimal price, Category category) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Long getId() {
+		return id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
+	public Category getCategory_id() {
+		return category;
+	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
