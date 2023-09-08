@@ -1,5 +1,6 @@
 package com.store.jpa;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.store.jpa.dao.ProductDAO;
@@ -17,9 +18,9 @@ public class Main {
 	
 		ProductDAO productDAO = new ProductDAO(entityManager);
 
-		List<Product> products = productDAO.getProducts();
+		BigDecimal iPhonePrice = productDAO.getProductPrice("iPhone 12");
 		
-		products.forEach(product -> System.out.println(product.getName()));
+		System.out.println(iPhonePrice);
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();

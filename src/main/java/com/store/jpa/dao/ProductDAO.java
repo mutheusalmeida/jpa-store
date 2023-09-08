@@ -1,5 +1,6 @@
 package com.store.jpa.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.store.jpa.model.Product;
@@ -37,5 +38,23 @@ public class ProductDAO {
 		String jpql = "SELECT p FROM Product p";
 		
 		return this.entityManager.createQuery(jpql, Product.class).getResultList();
+	}
+	
+	public List<Product> getProductByName(String name) {
+		String jpql = "SELECT p FROM Product p WHERE p.name = :name";
+		
+		return this.entityManager.createQuery(jpql, Product.class).setParameter("name", name).getResultList();
+	}
+	
+	public List<Product> getProductByCategory(String name) {
+		String jpql = "SELECT p FROM Product p WHERE p.category.name = :name";
+		
+		return this.entityManager.createQuery(jpql, Product.class).setParameter("name", name).getResultList();
+	}
+	
+	public BigDecimal getProductPrice (String name) {
+		String jpql = "SELECT p.price FROM Product p WHERE p.name = :name";
+		
+		return this.entityManager.createQuery(jpql, BigDecimal.class).setParameter("name", name).getSingleResult();
 	}
 }
