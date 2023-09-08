@@ -1,10 +1,8 @@
 package com.store.jpa;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.store.jpa.dao.ProductDAO;
-import com.store.jpa.model.Product;
 import com.store.jpa.util.JPAUtil;
 
 import jakarta.persistence.EntityManager;
