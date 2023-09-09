@@ -22,4 +22,10 @@ public class OrderDAO {
 		
 		return this.entityManager.createQuery(jpql, BigDecimal.class).getSingleResult();
 	}
+	
+	public Order getOrderWithClient(Long id) {
+		String jpql = "SELECT o FROM Order o JOIN FETCH o.client WHERE o.id = :id";
+		
+		return this.entityManager.createQuery(jpql, Order.class).setParameter("id", id).getSingleResult();
+	}
 }

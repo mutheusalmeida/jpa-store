@@ -1,10 +1,8 @@
 package com.store.jpa;
 
-import java.util.List;
-
-import com.store.jpa.dao.ProductDAO;
+import com.store.jpa.dao.OrderDAO;
+import com.store.jpa.model.Order;
 import com.store.jpa.util.JPAUtil;
-import com.store.jpa.vo.SalesReportVo;
 
 import jakarta.persistence.EntityManager;
 
@@ -15,13 +13,15 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 	
-		ProductDAO productDAO = new ProductDAO(entityManager);
+		OrderDAO orderDAO = new OrderDAO(entityManager);
 		
-		List<SalesReportVo> salesReportVo = productDAO.getSalesReport();
+		Order order = orderDAO.getOrderWithClient(2l);
 		
-		salesReportVo.forEach(s -> System.out.println(s));
+		System.out.println(order.getTotalValue());
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
+				
+		System.out.println(order.getClient().getName());
 	}
 }
