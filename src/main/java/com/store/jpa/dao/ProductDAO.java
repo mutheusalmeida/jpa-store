@@ -8,10 +8,7 @@ import com.store.jpa.model.Product;
 import com.store.jpa.vo.SalesReportVo;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.TypedQuery;
 
 public class ProductDAO {
 	private EntityManager entityManager;
@@ -79,27 +76,35 @@ public class ProductDAO {
 	}
 	
 	public List<Product> getProductsByParams(String name, BigDecimal price, LocalDate date) {
-		CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
-		CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
-		Root<Product> root = criteriaQuery.from(Product.class);
-		
-		Predicate predicate = criteriaBuilder.and();
+		String jpql = "SELECT p FROM Product p WHERE 1=1 ";
 		
 		if (name != null && !name.equals("")) {
-			predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), name));
+			jpql += "AND p.name = :name ";
 		}
 		
 		if (price != null) {
-			predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("price"), price));
+			jpql += "AND p.price = :price ";
 		}
 		
 		if (date != null) {
-			predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("date"), date));
+			jpql += "AND p.date = :date ";
 		}
 		
-		criteriaQuery.where(predicate);
+		TypedQuery<Product> typedQuery = this.entityManager.createQuery(jpql, Product.class);
 		
-		return this.entityManager.createQuery(criteriaQuery).getResultList();
+		if (name != null && !name.equals("")) {
+			typedQuery.setParameter("name", name);
+		}
+		
+		if (price != null) {
+			typedQuery.setParameter("price", price);
+		}
+		
+		if (date != null) {
+			typedQuery.setParameter("date", date);
+		}
+		
+		return typedQuery.getResultList();
 	}
 	
 }

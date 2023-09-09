@@ -18,7 +18,7 @@ public class Main {
 	
 		ProductDAO productDAO = new ProductDAO(entityManager);
 		
-		List<Product> products = productDAO.getProductsByParams(null, new BigDecimal("150"), null);
+		List<Product> products = productDAO.getProductsByParams(null, null, null);
 		
 		products.forEach(p -> System.out.println(p.getName()));
 		
