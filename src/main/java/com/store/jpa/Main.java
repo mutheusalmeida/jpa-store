@@ -3,7 +3,9 @@ package com.store.jpa;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.store.jpa.dao.ClientDAO;
 import com.store.jpa.dao.ProductDAO;
+import com.store.jpa.model.Client;
 import com.store.jpa.model.Product;
 import com.store.jpa.util.JPAUtil;
 
@@ -16,11 +18,11 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 	
-		ProductDAO productDAO = new ProductDAO(entityManager);
+		ClientDAO clientDAO = new ClientDAO(entityManager);
 		
-		List<Product> products = productDAO.getProductsByParams(null, null, null);
+		Client bob = clientDAO.getClient(2l);
 		
-		products.forEach(p -> System.out.println(p.getName()));
+		System.out.println(bob.getName());
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();

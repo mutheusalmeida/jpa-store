@@ -14,4 +14,8 @@ public class ClientDAO {
 	public void add(Client client) {
 		this.entityManager.persist(client);
 	}
+
+	public Client getClient(Long id) {
+		return this.entityManager.find(Client.class, id);
+	}
 }
