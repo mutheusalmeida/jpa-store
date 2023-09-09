@@ -2,6 +2,7 @@ package com.store.jpa.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,10 @@ public class OrderItem {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column (name = "unit_price")
 	private BigDecimal unitPrice;
+	
 	private int quantity;
 
 	@ManyToOne
@@ -29,7 +33,7 @@ public class OrderItem {
 		
 	}
 	
-	public OrderItem(BigDecimal unitPrice, int quantity, Product product, Order order) {
+	public OrderItem(int quantity, Product product, Order order) {
 		this.unitPrice = product.getPrice();
 		this.quantity = quantity;
 		this.product = product;
@@ -66,6 +70,10 @@ public class OrderItem {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public BigDecimal getValue() {
+		return this.unitPrice.multiply(new BigDecimal(this.quantity));
 	}
 }
 

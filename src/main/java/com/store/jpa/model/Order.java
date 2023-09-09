@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,13 +22,16 @@ public class Order {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	private BigDecimal totalValue;
+	
+	@Column (name = "total_value")
+	private BigDecimal totalValue = BigDecimal.ZERO;
+	
 	private LocalDate date = LocalDate.now();
 	
 	@ManyToOne
 	private Client client;
 	
-	@OneToMany (mappedBy = "order")
+	@OneToMany (mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 	
 	public Order() {
@@ -40,6 +45,7 @@ public class Order {
 	public void addOrderItem (OrderItem orderItem) {
 		orderItem.setOrder(this);
 		this.orderItems.add(orderItem);
+		this.totalValue = this.totalValue.add(orderItem.getValue());
 	}
 
 	public BigDecimal getTotalValue() {
@@ -60,10 +66,6 @@ public class Order {
 
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
-	}
-
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
 	}
 	
 	public LocalDate getDate() {
