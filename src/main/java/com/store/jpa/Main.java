@@ -1,7 +1,10 @@
 package com.store.jpa;
 
-import com.store.jpa.dao.OrderDAO;
-import com.store.jpa.model.Order;
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.store.jpa.dao.ProductDAO;
+import com.store.jpa.model.Product;
 import com.store.jpa.util.JPAUtil;
 
 import jakarta.persistence.EntityManager;
@@ -13,15 +16,13 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 	
-		OrderDAO orderDAO = new OrderDAO(entityManager);
+		ProductDAO productDAO = new ProductDAO(entityManager);
 		
-		Order order = orderDAO.getOrderWithClient(2l);
+		List<Product> products = productDAO.getProductsByParams(null, new BigDecimal("150"), null);
 		
-		System.out.println(order.getTotalValue());
+		products.forEach(p -> System.out.println(p.getName()));
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
-				
-		System.out.println(order.getClient().getName());
 	}
 }
