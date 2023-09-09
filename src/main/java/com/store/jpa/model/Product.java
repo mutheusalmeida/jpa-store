@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +23,7 @@ public class Product {
 	private BigDecimal price;
 	private LocalDate date = LocalDate.now();
 	
-	@ManyToOne
+	@ManyToOne (fetch = FetchType.LAZY)
 	private Category category;
 	
 	public Product() {
