@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.store.jpa.model.Product;
+import com.store.jpa.vo.SalesReportVo;
 
 import jakarta.persistence.EntityManager;
 
@@ -56,5 +57,19 @@ public class ProductDAO {
 		String jpql = "SELECT p.price FROM Product p WHERE p.name = :name";
 		
 		return this.entityManager.createQuery(jpql, BigDecimal.class).setParameter("name", name).getSingleResult();
+	}
+	
+	public List<SalesReportVo> getSalesReport() {
+		String jpql = "SELECT new com.store.jpa.vo.SalesReportVo("
+				+ "product.name, "
+				+ "SUM(orderItem.quantity) as quantity, "
+				+ "MAX(order.date)) "
+				+ "FROM Order order "
+				+ "JOIN order.orderItems orderItem "
+				+ "JOIN orderItem.product product "
+				+ "GROUP BY product.name "
+				+ "ORDER BY quantity DESC";
+		
+		return this.entityManager.createQuery(jpql, SalesReportVo.class).getResultList();
 	}
 }
