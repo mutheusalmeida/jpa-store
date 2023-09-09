@@ -1,12 +1,7 @@
 package com.store.jpa;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.store.jpa.dao.ClientDAO;
 import com.store.jpa.dao.ProductDAO;
-import com.store.jpa.model.Client;
-import com.store.jpa.model.Product;
+import com.store.jpa.model.Device;
 import com.store.jpa.util.JPAUtil;
 
 import jakarta.persistence.EntityManager;
@@ -18,11 +13,12 @@ public class Main {
 		
 		entityManager.getTransaction().begin();
 	
-		ClientDAO clientDAO = new ClientDAO(entityManager);
+		ProductDAO productDAO = new ProductDAO(entityManager);
 		
-		Client bob = clientDAO.getClient(2l);
+		Device iPhone14 = (Device) productDAO.getProduct(10l);
 		
-		System.out.println(bob.getName());
+		System.out.println(iPhone14.getModel());
+		System.out.println(iPhone14.getBrand());
 		
 		entityManager.getTransaction().commit();
 		entityManager.close();
